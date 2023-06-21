@@ -1,0 +1,14 @@
+{
+  "name": "pinnacle-grafana-brevo",
+  "version": "0.1.0",
+  "description": "An express server to listen for Grafana alerts and forward them to Brevo",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
