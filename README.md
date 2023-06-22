@@ -4,7 +4,7 @@
 
 First, open a terminal and enter the following commands to start this service:
 ```bash
-$ git clone git@github.com:cwilby/grafana-brevo /usr/local/share/grafana-brevo
+$ git clone https://github.com/cwilby/grafana-brevo.git /usr/local/share/grafana-brevo
 $ cd /usr/local/share/grafana-brevo
 $ npm install
 $ npm start
