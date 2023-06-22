@@ -2,9 +2,15 @@
 
 ## Setup
 
-1.  Clone this repository to a server running Grafana
-2.  Open the folder in a terminal and run `npm start` to start this service.
-3.  In Grafana, configure an alert with the following settings:
+First, open a terminal and enter the following commands to start this service:
+```bash
+$ git clone git@github.com:cwilby/grafana-brevo /usr/local/share/grafana-brevo
+$ cd /usr/local/share/grafana-brevo
+$ npm install
+$ npm start
+```
+
+Next, configure a Webhook alert in Grafana with the following settings:
 
 * **Integration**: Webhook
 * **URL**: http://127.0.0.1:32012/send-sms?number={number}&apiKey={brevoApiKey}
