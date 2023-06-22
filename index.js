@@ -8,17 +8,22 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
+app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
-    Brevo.ApiClient.instance.authentications['api-key'].apiKey = req.query.apiKey;
+    try {
+        Brevo.ApiClient.instance.authentications['api-key'].apiKey = req.query.apiKey;
+        
+        const sendTransacSms = new Brevo.SendTransacSms();
+        sendTransacSms.sender = 'PinnacleSMS';
+        sendTransacSms.recipient = req.query.number;
+        sendTransacSms.content = req.body.message;
     
-    const sendTransacSms = new Brevo.SendTransacSms();
-    sendTransacSms.sender = 'PinnacleSMS';
-    sendTransacSms.recipient = req.query.recipient;
-    sendTransacSms.content = req.body.message;
-
-    await new Brevo.TransactionalSMSApi().sendTransacSms(sendTransacSms);
-
-    res.status(201).send();
+        await new Brevo.TransactionalSMSApi().sendTransacSms(sendTransacSms);
+    
+        res.status(201).send();
+    } catch (e) {
+        res.status(500).json(e);
+    }
 });
 
 const port = process.env.PORT || 32012;
