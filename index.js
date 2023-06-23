@@ -16,7 +16,7 @@ app.post('/send-sms', async (req, res) => {
         const sendTransacSms = new Brevo.SendTransacSms();
         sendTransacSms.sender = 'PinnacleSMS';
         sendTransacSms.recipient = req.query.number;
-        sendTransacSms.content = req.body.message;
+        sendTransacSms.content = req.body.message.content;
     
         await new Brevo.TransactionalSMSApi().sendTransacSms(sendTransacSms);
     
