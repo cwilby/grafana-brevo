@@ -1,16 +1,21 @@
 # grafana-brevo
 
-## Setup
+## Install
 
-First, open a terminal and enter the following commands to start this service:
 ```bash
-$ git clone https://github.com/cwilby/grafana-brevo.git /usr/local/share/grafana-brevo
-$ cd /usr/local/share/grafana-brevo
+# Create a directory for the app
+$ mkdir /opt/grafana-brevo
+
+# Clone the repository to that directory
+$ git clone https://github.com/cwilby/grafana-brevo.git /opt/grafana-brevo
+
+# Install dependencies and setup service
+$ cd /opt/grafana-brevo
 $ npm install
-$ npm start
+$ ./setup-service.sh
 ```
 
-Next, configure a Webhook alert in Grafana with the following settings:
+Configure a Webhook alert in Grafana with the following settings:
 
 * **Integration**: Webhook
 * **URL**: http://127.0.0.1:32012/send-sms?number={number}&apiKey={brevoApiKey}
