@@ -60,6 +60,8 @@ function buildContent(alert) {
     content += `Silence: ${silenceUrl}\n\n`;
 
     content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
+
+    return content;
 }
 
 const port = process.env.PORT || 32012;
