@@ -47,11 +47,11 @@ function buildContent(alert) {
     const notificationDeliveredAt = new Date().toISOString();
     const observedSecondsAgo = Math.round((new Date(notificationDeliveredAt) - new Date(observedAt)) / 1000);
 
-    const alert = `Alert: ${description}\n\nValue: ${value}\n\nSilence: ${silenceUrl}\n\nObserved ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
+    const alertMessage = `Alert: ${description}\n\nValue: ${value}\n\nSilence: ${silenceUrl}\n\nObserved ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
     
-    console.log(alert);
+    console.log(alertMessage);
 
-    return alert;
+    return alertMessage;
 }
 
 const port = process.env.PORT || 32012;
