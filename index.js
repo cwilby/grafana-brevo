@@ -42,7 +42,7 @@ app.post('/send-sms', async (req, res) => {
 function buildContent(alert) {
     const notificationDeliveredAt = dayjs();
     const observedSecondsAgo = notificationDeliveredAt.diff(alert.startsAt, 'seconds');
-    const value = JSON.stringify(alert.values);
+    const value = buildValue(alert);
 
     let content = '';
     content += alert.status === 'firing' ? 'FIRING\n\n' : 'RESOLVED\n\n';
@@ -52,6 +52,16 @@ function buildContent(alert) {
     content += `Silence: ${alert.silenceURL}\n\n`;
     content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
     return content;
+}
+
+function buildValue(alert) {
+    if (alert.values instanceof Array) {
+        return JSON.stringify(alert.values);
+    }
+    if (typeof alert.values === 'object') {
+        return Object.values(alert.values).join(', ');
+    }
+    return JSON.stringify(alert.values);
 }
 
 const port = process.env.PORT || 32012;
