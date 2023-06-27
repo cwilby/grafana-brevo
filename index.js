@@ -40,21 +40,17 @@ app.post('/send-sms', async (req, res) => {
 });
 
 function buildContent(alert) {
-    const description = Object.values(alert.annotations)[0];
+    const notificationDeliveredAt = dayjs();
+    const observedSecondsAgo = notificationDeliveredAt.diff(alert.startsAt, 'seconds');
     const value = JSON.stringify(alert.values);
-    const observedAt = dayjs(alert.startsAt).format('YYYY-MM-DD HH:mm:ss Z');
-    const notificationDeliveredAt = dayjs().format('YYYY-MM-DD HH:mm:ss Z');
-    const observedSecondsAgo = dayjs(notificationDeliveredAt).diff(observedAt, 'seconds');
 
     let content = '';
-
     content += alert.status === 'firing' ? 'FIRING\n\n' : 'RESOLVED\n\n';
-    content += `Alert: ${description}\n\n`;
-    content += value ? `Value: ${value}\n\n` : 'No values\n\n';
+    content += `Alert: ${Object.values(alert.annotations)[0]}\n\n`;
+    content += value && value !== 'null' ? `Value: ${value}\n\n` : 'No values\n\n';
     content += `Panel: ${alert.panelURL}\n\n`;
     content += `Silence: ${alert.silenceURL}\n\n`;
     content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
-
     return content;
 }
 
