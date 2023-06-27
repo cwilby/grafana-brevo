@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const Brevo = require('@getbrevo/brevo');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -23,6 +25,13 @@ app.post('/send-sms', async (req, res) => {
         res.status(201).send();
     } catch (e) {
         res.status(500).json(e);
+
+        const errorPath = path.resolve(__dirname, 'error.log');
+
+        if (!fs.existsSync(errorPath)) fs.writeFileSync(errorPath, '');
+
+        fs.appendFileSync(errorPath, `Message: ${e?.message}` + '\n');
+        fs.appendFileSync(errorPath, `Error: ${JSON.stringify(e)}` + '\n');
     }
 });
 
