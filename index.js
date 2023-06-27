@@ -3,8 +3,6 @@ const morgan = require('morgan');
 const Brevo = require('@getbrevo/brevo');
 const fs = require('fs');
 const dayjs = require('dayjs');
-var advancedFormat = require('dayjs/plugin/advancedFormat')
-dayjs.extend(advancedFormat)
 const path = require('path');
 require('dotenv').config();
 
@@ -46,14 +44,14 @@ function buildContent(alert) {
     const description = Object.values(alert.annotations)[0];
     const value = JSON.stringify(alert.values);
     const silenceUrl = alert.silenceURL;
-    const observedAt = dayjs(alert.startsAt).format('YYYY-MM-DD HH:mm:ss z');
-    const notificationDeliveredAt = dayjs().format('YYYY-MM-DD HH:mm:ss z');
+    const observedAt = dayjs(alert.startsAt).format('YYYY-MM-DD HH:mm:ss Z');
+    const notificationDeliveredAt = dayjs().format('YYYY-MM-DD HH:mm:ss Z');
     const observedSecondsAgo = dayjs(notificationDeliveredAt).diff(observedAt, 'seconds');
 
     let content = '';
 
     content += `Alert: ${description}\n\n`;
-    
+
     if (value) {
         content += `Value: ${value}\n\n`;
     } else {
