@@ -52,7 +52,7 @@ function buildContent(alert) {
     content += `Alert: ${description}\n\n`;
     content += value ? `Value: ${value}\n\n` : 'No values\n\n';
     content += `Panel: ${alert.panelURL}\n\n`;
-    content += `Silence: ${alert.silenceURL}\n`;
+    content += `Silence: ${alert.silenceURL}\n\n`;
     content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
 
     return content;
