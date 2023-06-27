@@ -18,15 +18,14 @@ app.post('/send-sms', async (req, res) => {
 
         const brevo = new Brevo.TransactionalSMSApi();
 
-        req.body.alerts.forEach(alert => {    
+        for (let alert of req.body.alerts) {
             const sendTransacSms = new Brevo.SendTransacSms();
             sendTransacSms.sender = 'PinnacleSMS';
             sendTransacSms.recipient = req.query.number;
             sendTransacSms.content = buildContent(alert);
         
-            brevo.sendTransacSms(sendTransacSms);
-        });
-        
+            await brevo.sendTransacSms(sendTransacSms);
+        }
     
         res.status(201).send();
     } catch (e) {
