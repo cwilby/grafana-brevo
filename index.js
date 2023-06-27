@@ -50,7 +50,7 @@ function buildContent(alert) {
 
     content += alert.status === 'firing' ? 'FIRING\n\n' : 'RESOLVED\n\n';
     content += `Alert: ${description}\n\n`;
-    content += value ? 'Value: ${value}\n\n' : 'No values\n\n';
+    content += value ? `Value: ${value}\n\n` : 'No values\n\n';
     content += `Panel: ${alert.panelURL}\n\n`;
     content += `Silence: ${alert.silenceURL}\n`;
     content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
