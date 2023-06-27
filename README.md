@@ -4,13 +4,13 @@
 
 ```bash
 # Create a directory for the app
-$ mkdir /opt/grafana-brevo
+$ mkdir /usr/local/share/grafana-brevo
 
 # Clone the repository to that directory
-$ git clone https://github.com/cwilby/grafana-brevo.git /opt/grafana-brevo
+$ git clone https://github.com/cwilby/grafana-brevo.git /usr/local/share/grafana-brevo
 
 # Install dependencies and setup service
-$ cd /opt/grafana-brevo
+$ cd /usr/local/share/grafana-brevo
 $ npm install
 $ ./setup-service.sh
 ```

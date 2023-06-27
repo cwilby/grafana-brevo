@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=centos
-ExecStart=/usr/bin/node /opt/grafana-brevo/index.js
+ExecStart=/usr/bin/node /usr/local/share/grafana-brevo/index.js
 
 [Install]
 WantedBy=multi-user.target
