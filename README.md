@@ -5,6 +5,7 @@
 ```bash
 # Create a directory for the app
 $ mkdir /usr/local/share/grafana-brevo
+$ sudo chown pinnacle: /usr/local/share/grafana-brevo
 
 # Clone the repository to that directory
 $ git clone https://github.com/cwilby/grafana-brevo.git /usr/local/share/grafana-brevo
