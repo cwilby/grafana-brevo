@@ -43,7 +43,7 @@ function buildContent(alert) {
     const description = Object.values(alert.annotations)[0];
     const value = alert.values instanceof Array ? alert.values.join(', ') : alert.values;
     const silenceUrl = alert.silenceURL;
-    const observedAt = new Date(Date.parse(req.body.alerts[0].startsAt)).toISOString();
+    const observedAt = new Date(Date.parse(alert.startsAt)).toISOString();
     const notificationDeliveredAt = new Date().toISOString();
     const observedSecondsAgo = Math.round((new Date(notificationDeliveredAt) - new Date(observedAt)) / 1000);
 
