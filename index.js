@@ -18,20 +18,21 @@ app.post('/send-sms', async (req, res) => {
         const sendTransacSms = new Brevo.SendTransacSms();
         sendTransacSms.sender = 'PinnacleSMS';
         sendTransacSms.recipient = req.query.number;
-        sendTransacSms.content = JSON.parse(req.body.message).content;
+        sendTransacSms.content = req.body.message;
     
         await new Brevo.TransactionalSMSApi().sendTransacSms(sendTransacSms);
     
         res.status(201).send();
     } catch (e) {
-        res.status(500).json(e);
+        res.status(500).json({
+            message: e.message,
+        });
 
         const errorPath = path.resolve(__dirname, 'error.log');
 
         if (!fs.existsSync(errorPath)) fs.writeFileSync(errorPath, '');
 
-        fs.appendFileSync(errorPath, `Message: ${e?.message}` + '\n');
-        fs.appendFileSync(errorPath, `Error: ${JSON.stringify(e)}` + '\n');
+        fs.appendFileSync(errorPath, `${new Date().toISOString()} - ${e.message}\n`);
     }
 });
 
