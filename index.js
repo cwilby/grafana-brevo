@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const Brevo = require('@getbrevo/brevo');
 const fs = require('fs');
+const dayjs = require('dayjs');
+var advancedFormat = require('dayjs/plugin/advancedFormat')
+dayjs.extend(advancedFormat)
 const path = require('path');
 require('dotenv').config();
 
@@ -41,17 +44,25 @@ app.post('/send-sms', async (req, res) => {
 
 function buildContent(alert) {
     const description = Object.values(alert.annotations)[0];
-    const value = alert.values instanceof Array ? alert.values.join(', ') : alert.values;
+    const value = JSON.stringify(alert.values);
     const silenceUrl = alert.silenceURL;
-    const observedAt = new Date(Date.parse(alert.startsAt)).toISOString();
-    const notificationDeliveredAt = new Date().toISOString();
-    const observedSecondsAgo = Math.round((new Date(notificationDeliveredAt) - new Date(observedAt)) / 1000);
+    const observedAt = dayjs(alert.startsAt).format('YYYY-MM-DD HH:mm:ss z');
+    const notificationDeliveredAt = dayjs().format('YYYY-MM-DD HH:mm:ss z');
+    const observedSecondsAgo = dayjs(notificationDeliveredAt).diff(observedAt, 'seconds');
 
-    const alertMessage = `Alert: ${description}\n\nValue: ${value}\n\nSilence: ${silenceUrl}\n\nObserved ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
+    let content = '';
+
+    content += `Alert: ${description}\n\n`;
     
-    console.log(alertMessage);
+    if (value) {
+        content += `Value: ${value}\n\n`;
+    } else {
+        content += `Value: No value\n\n`;
+    }
 
-    return alertMessage;
+    content += `Silence: ${silenceUrl}\n\n`;
+
+    content += `Observed ${observedSecondsAgo}s before this notification was delivered, at ${notificationDeliveredAt}`;
 }
 
 const port = process.env.PORT || 32012;
