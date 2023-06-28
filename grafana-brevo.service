@@ -7,7 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=centos
+User=pinnacle
 ExecStart=/usr/bin/node /usr/local/share/grafana-brevo/index.js
 
 [Install]
