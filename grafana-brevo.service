@@ -1,5 +1,5 @@
 [Unit]
-Description=Grafana Brevo Service
+Description=Grafana SMS Service
 After=network.target
 StartLimitIntervalSec=0
 
@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=pinnacle
-ExecStart=/usr/bin/node /usr/local/share/grafana-brevo/index.js
+ExecStart=/usr/bin/node /usr/local/share/grafana-sms/index.js
 
 [Install]
 WantedBy=multi-user.target

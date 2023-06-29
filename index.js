@@ -1,43 +1,37 @@
 const express = require('express');
 const morgan = require('morgan');
-const Brevo = require('@getbrevo/brevo');
 const fs = require('fs');
 const dayjs = require('dayjs');
 const path = require('path');
 require('dotenv').config();
+const Twilio = require('twilio');
 
 const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
-
 app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
     try {
-        Brevo.ApiClient.instance.authentications['api-key'].apiKey = req.query.apiKey;
-
-        const brevo = new Brevo.TransactionalSMSApi();
+        const client = Twilio(req.query.accountSid, req.query.authToken);
 
         const recipients = req.query.number.split(',');
 
         for (let recipient of recipients) {
             for (let alert of req.body.alerts) {
-                const sendTransacSms = new Brevo.SendTransacSms();
-                sendTransacSms.sender = 'PinnacleSMS';
-                sendTransacSms.recipient = recipient;
-                sendTransacSms.content = buildContent(alert);
-                await brevo.sendTransacSms(sendTransacSms);
+                await client.messages.create({
+                    from: req.query.from,
+                    to: recipient,
+                    body: buildContent(alert),
+                })
             }
         }
     
         res.status(201).send();
     } catch (e) {
         res.status(500).json({ message: e.message });
-
         const errorPath = path.resolve(__dirname, 'error.log');
-
         if (!fs.existsSync(errorPath)) fs.writeFileSync(errorPath, '');
-
         fs.appendFileSync(errorPath, `${new Date().toISOString()} - ${e.message}\n`);
     }
 });
