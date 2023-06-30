@@ -1,30 +1,9 @@
 # grafana-sms
 
-## Grafana Settings
-* **Integration**: Webhook
-* **URL**: http://127.0.0.1:32012/send-sms?number={number}
-* **HTTP Method**: POST
+## Install
 
-## Installation
-
-First, download this project to the server using the following commands:
-
-```
-$ mkdir /usr/local/share/grafana-sms
-$ sudo chown $(whoami): /usr/local/share/grafana-sms
-$ cd /usr/local/share/grafana-sms
-
-# With git
-$ git clone https://github.com/cwilby/grafana-sms .
-
-# With wget
-$ wget https://github.com/cwilby/grafana-sms/archive/refs/heads/main.zip
-$ unzip main.zip && rm main.zip 
-$ mv grafana-sms-main/* . && rmdir grafana-sms-main
-```
-
-Next, run the `install.sh` script to install the project.  This will ask for your Twilio credentials and install the project as a systemd service.
+Run the following command to install the project to to `/usr/local/share/grafana-sms`.
 
 ```bash
-$ ./install.sh
+/bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/cwilby/cab04e013a3ec3ef334f57ee6f5b2741/raw/80a822286fabb8a1b7b79c83d75bf52ceeff7fb2/test.sh)"
 ```
