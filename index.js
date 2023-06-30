@@ -20,7 +20,7 @@ app.post('/send-sms', async (req, res) => {
             { headers: { 'content-type': 'text/plain' } }
         );
 
-        const { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } = JSON.stringify(data);
+        const { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } = JSON.parse(data);
 
         const client = Twilio(twilioAccountNumber, twilioToken);
         
