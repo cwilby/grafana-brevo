@@ -13,7 +13,7 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
     try {
-        const client = Twilio(req.query.accountSid, req.query.authToken);
+        const client = Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
         const recipients = req.query.number.split(',');
 
