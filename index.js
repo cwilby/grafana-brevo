@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const fs = require('fs');
 const dayjs = require('dayjs');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const Twilio = require('twilio');
 const axios = require('axios');
 
