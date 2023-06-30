@@ -5,6 +5,7 @@ const dayjs = require('dayjs');
 const path = require('path');
 require('dotenv').config();
 const Twilio = require('twilio');
+const axios = require('axios');
 
 const app = express();
 
@@ -13,14 +14,20 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
     try {
-        const client = Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+        const { data: { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } } = await axios.post(
+            'http://127.0.0.1:1880/twilio-credentials',
+            process.env.NODERED_TOKEN,
+            { headers: { 'Content-Type': 'text/plain' } }
+        );
 
-        const recipients = req.query.number.split(',');
+        const client = Twilio(twilioAccountNumber, twilioToken);
+        
+        const recipients = twilioToNumber.split(',');
 
         for (let recipient of recipients) {
             for (let alert of req.body.alerts) {
                 await client.messages.create({
-                    from: req.query.from,
+                    from: twilioFromNumber,
                     to: recipient,
                     body: buildContent(alert),
                 })
