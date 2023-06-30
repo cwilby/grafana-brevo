@@ -14,11 +14,13 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
     try {
-        const { data: { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } } = await axios.post(
+        const { data } = await axios.post(
             'http://127.0.0.1:1880/twilio-credentials',
             process.env.NODERED_TOKEN,
-            { headers: { 'Content-Type': 'text/plain' } }
+            { headers: { 'content-type': 'text/plain' } }
         );
+
+        const { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } = JSON.stringify(data);
 
         const client = Twilio(twilioAccountNumber, twilioToken);
         
