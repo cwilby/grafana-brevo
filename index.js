@@ -22,7 +22,7 @@ app.post('/send-sms', async (req, res) => {
 
         const client = Twilio(twilioAccountNumber, twilioToken);
         
-        const recipients = twilioToNumber.split(',');
+        const recipients = (req.query.to || twilioToNumber).split(',');
 
         for (let recipient of recipients) {
             for (let alert of req.body.alerts) {
