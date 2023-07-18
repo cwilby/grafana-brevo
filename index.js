@@ -50,7 +50,7 @@ function buildContent(alert) {
 
     let content = '';
     content += alert.status === 'firing' ? 'FIRING\n\n' : 'RESOLVED\n\n';
-    content += alert.annotations ? `Alert: ${Object.values(alert.annotations)[0]}\n\n` : ``;
+    content += alert.labels ? `Alert: ${alert.labels.alertname}\n\n` : ``;
     content += value && value !== 'null' ? `Value: ${value}\n\n` : 'No values\n\n';
     content += `Panel: ${alert.panelURL}\n\n`;
     content += `Silence: ${alert.silenceURL}\n\n`;
@@ -59,16 +59,23 @@ function buildContent(alert) {
 }
 
 function buildValue(alert) {
-    if (alert.values instanceof Array) {
+    if (alert.values) {
+        if (alert.values instanceof Array) {
+            return JSON.stringify(alert.values);
+        }
+        if (typeof alert.values === 'object' && alert.values) {
+            return Object.values(alert.values).join(', ');
+        }
+        if (!alert.values) {
+            return null;
+        }
         return JSON.stringify(alert.values);
+    } else if (alert.valueString) {
+        const regex = /value=([\d.]+)/;
+        const match = alert.valueString.match(regex);
+        const value = match ? parseFloat(match[1]) : null;
+        return value;
     }
-    if (typeof alert.values === 'object' && alert.values) {
-        return Object.values(alert.values).join(', ');
-    }
-    if (!alert.values) {
-        return null;
-    }
-    return JSON.stringify(alert.values);
 }
 
 const port = process.env.PORT || 32012;
