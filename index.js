@@ -14,6 +14,10 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => res.send('It\'s working!'));
 app.post('/send-sms', async (req, res) => {
     try {
+        const requestsPath = path.resolve(__dirname, 'requests.log');
+        if (!fs.existsSync(requestsPath)) fs.writeFileSync(requestsPath, '');
+        fs.appendFileSync(requestsPath, JSON.stringify(req.body) + '\n');
+        
         const { data: { twilioAccountNumber, twilioFromNumber, twilioToNumber, twilioToken } } = await axios.post(
             'http://127.0.0.1:1880/twilio-credentials',
             process.env.NODERED_TOKEN,
