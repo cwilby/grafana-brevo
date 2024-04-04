@@ -152,7 +152,7 @@ openssl rand -base64 32
 5.  Paste the following command into a terminal:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/cwilby/8eb42a224ac3d87f1deaf5a53720ac2b/raw/)"
+/bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/mindandmilladmin/74d42c4273b40210b38c050e91e2d0bf/raw)"
 ```
 
 6.  Enter the random token generated in step 3 when prompted.
